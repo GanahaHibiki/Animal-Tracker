@@ -1,0 +1,68 @@
+<html>
+<body>
+
+<h1>Animal Tracking</h1>
+
+<p>
+1. Press "Upload File" to upload history data file first
+2. Insert id
+3. Press "Get Snapshot" to track
+</p>
+
+<script type="text/javascript" src="Animal.js"></script>
+<script type="text/javascript" src="Util.js"></script>
+<script type="text/javascript" src="jquery-3.1.0.js"></script>
+
+<button type="" class="btn btn-success" onclick="fileToUpload.click()">Upload File</button>
+<input type="file" id="fileToUpload" style="display:none" name="fileToUpload" onchange="backUpload(this); "value="上传"/> 
+<script type="text/javascript">
+	var historyData = "";
+	function backUpload(input) {//上传  
+      
+	    var fileSize = 0;//文件大小  
+	    var count="";  
+	    _start=0;  
+	    if (window.FileReader) {//支持chrome IE10  
+	        _file1 = input.files[0];  
+	        var filename = _file1.name.split(".")[0];  
+	        _upFileSize=_file1.size;//文件字节数  
+	        URL=input.value;  
+	        order=0;  
+	        upda();  
+	    }   
+	}  
+	  
+	function upda(){  
+	    reading();  
+	}  
+	  
+	var READBLOCKSIZE = 511 ;
+	  
+	function reading ()  
+	{  
+	    var reader = new FileReader();  
+	      
+	        var result;  
+	        result= _file1.slice(_start,(READBLOCKSIZE+_start));  
+	        reader.onload = function() {  
+	            // var contents ="";  
+	            // contents = this.result;
+	            // console.log(contents);
+	            // debugger;
+	            historyData = this.result;
+	        }
+	        reader.readAsBinaryString(result);
+	}
+
+	function getSnapshotHandler() {
+		var id = document.getElementById("Input_ID").value;
+		getSnapshot(historyData, id);
+	}
+</script>
+<input id="Input_ID" name="Input_ID"/>
+<button onclick="getSnapshotHandler()">Get Snapshot</button>
+
+
+
+</body>
+</html>
